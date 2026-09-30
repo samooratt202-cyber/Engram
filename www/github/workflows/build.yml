@@ -16,6 +16,11 @@ jobs:
           java-version: 17
       - run: npm install
       - run: npx cap add android
+      - name: Generate app icon
+        run: |
+          npm install --no-save @capacitor/assets
+          mkdir -p assets && cp icon.png assets/icon.png
+          npx capacitor-assets generate --android --iconBackgroundColor '#0B1F3F' --iconBackgroundColorDark '#0B1F3F'
       - name: Add notification permission
         run: sed -i 's#<application#<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>\n    <application#' android/app/src/main/AndroidManifest.xml
       - run: npx cap sync android
